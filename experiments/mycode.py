@@ -5,11 +5,11 @@ import logging
 
 # logger configuration
 logger = logging.getLogger('mycode')
-logger.setLevel('DEBUG')
+logger.setLevel(logging.DEBUG)
 
 # using logger at a terminal/console level
 console_handler = logging.StreamHandler()
-console_handler.setLevel('DEBUG')
+console_handler.setLevel(logging.DEBUG)
 # formatting the logger
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 console_handler.setFormatter(formatter)
