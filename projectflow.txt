@@ -1,4 +1,5 @@
 1. Load data from the CSV foile github repo
 2. Performed experiment for the data (EDA, Feature engineering, model building, model evaluation)
 3. Code for data_ingestion.py
-4. 
+4. Then code for data pre-processing
+5. 
