@@ -2,4 +2,5 @@
 2. Performed experiment for the data (EDA, Feature engineering, model building, model evaluation)
 3. Code for data_ingestion.py
 4. Then code for data pre-processing
-5. 
+5. Then code for feature engineering
+6. 
