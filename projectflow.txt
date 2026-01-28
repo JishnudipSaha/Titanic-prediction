@@ -3,4 +3,6 @@
 3. Code for data_ingestion.py
 4. Then code for data pre-processing
 5. Then code for feature engineering
-6. 
+6. Now code for model_building.py
+    > model building: added params.yaml file for modular code & saving model into folder(model)
+    > load_params() function added in data_ingestion and model_building including yaml module (all working)

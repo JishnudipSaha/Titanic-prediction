@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import os
 import logging
+import yaml
 
 # Ensure "logs" directory exist
 log_dir = 'logs'
@@ -33,6 +34,26 @@ logger.addHandler(file_handler)
 
 
 
+# method to load params from params.yaml
+def load_params(params_path: str) -> dict:
+    """Load parameters from a YAML file."""
+    try:
+        with open(params_path, 'r') as file:
+            params = yaml.safe_load(file)
+        logger.debug('Parameters retrieved from %s', params_path)
+        return params
+    except FileNotFoundError:
+        logger.error('File not found: %s', params_path)
+        raise
+    except yaml.YAMLError as e:
+        logger.error('YAML error: %s', e)
+        raise
+    except Exception as e:
+        logger.error('Unexpected error: %s', e)
+        raise
+
+
+# loading data from path
 def load_data(data_url: str) -> pd.DataFrame:
     """Loading data from a CSV file."""
     try:
@@ -46,6 +67,7 @@ def load_data(data_url: str) -> pd.DataFrame:
         logger.error('Unexpected error occured while loading the data: %s', e)
         raise
 
+# saving data to CSV file
 def save_data(train_data: pd.DataFrame, test_data: pd.DataFrame, data_path: str) -> None:
     """Preprocess the data"""
     try:
@@ -60,11 +82,14 @@ def save_data(train_data: pd.DataFrame, test_data: pd.DataFrame, data_path: str)
 
 def main():
     try:
-        test_size = 0.2
+        params = load_params('params.yaml')['data_ingestion']
+        test_size = params['test_size']
+        # fetching data from the git/Dataset for remote access
         data_path = "https://raw.githubusercontent.com/JishnudipSaha/Datasets/refs/heads/main/Titanic-Dataset.csv"
         df = load_data(data_url=data_path)
         train_data, test_data = train_test_split(df, test_size=test_size, random_state=42)
         save_data(train_data=train_data, test_data=test_data, data_path='./data')
+        logger.debug('Data ingestion completed.')
     except Exception as e:
         logger.error('Failed to complete data ingestion process.')
 
