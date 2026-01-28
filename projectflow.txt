@@ -6,3 +6,5 @@
 6. Now code for model_building.py
     > model building: added params.yaml file for modular code & saving model into folder(model)
     > load_params() function added in data_ingestion and model_building including yaml module (all working)
+7. Code for model_evaluation.py
+    > save the matrics of the evaluation
