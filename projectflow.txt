@@ -8,3 +8,7 @@
     > load_params() function added in data_ingestion and model_building including yaml module (all working)
 7. Code for model_evaluation.py
     > save the matrics of the evaluation
+
+8. Noe add data, models, reports directories to .gitignore file (this is important not to track by git)
+  > those files will be tracked by dvc(cuz in future the files might be very large in size)
+  > Now to track by dvc we first need to make sure that those file should not be track by git
