@@ -16,3 +16,7 @@
 9. Now setting up DVC pipeline with/without params (as i will do with params, for integrity, and modular)
     > we will automate the whole pipeline using dvc in yaml file (using "dvc repro" command)
     now git add-commit-push
+
+10> Now track the experiment with dvc pipeline
+    > pip install dvclive
+    > 

@@ -6,7 +6,7 @@ import json
 import yaml
 import pickle
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
-
+from dvclive import Live 
 
 # ensuring "logs" exists
 log_dir = "logs"
@@ -36,6 +36,24 @@ logger.addHandler(console_handler)
 logger.addHandler(file_handler)
 
 
+
+# method to load params from params.yaml
+def load_params(params_path: str) -> dict:
+    """Load parameters from a YAML file."""
+    try:
+        with open(params_path, 'r') as file:
+            params = yaml.safe_load(file)
+        logger.debug('Parameters retrieved from %s', params_path)
+        return params
+    except FileNotFoundError:
+        logger.error('File not found: %s', params_path)
+        raise
+    except yaml.YAMLError as e:
+        logger.error('YAML error: %s', e)
+        raise
+    except Exception as e:
+        logger.error('Unexpected error: %s', e)
+        raise
 
 # loading trained model
 def load_model(model_path: str):
@@ -105,6 +123,9 @@ def save_reports(matrics: dict, file_path: str):
 def main():
     """load model, evaluate it and save evaluation data, params in json file"""
     try:
+        # loading params
+        params = load_params('params.yaml')
+        
         # loading model 
         model = load_model('./models/model.pkl')
         
@@ -118,6 +139,28 @@ def main():
         
         # evaluating the trained model on test data
         metrics = evaluate_model(model, X_test_data, y_test_data)
+        
+        # trackinh the meta-data of the experiments using dvclive
+        with Live(save_dvc_exp=True) as live:
+            live.log_metric('accuracy', metrics['accuracy'])
+            # saving detailed rport as artifacts
+            cm_path = './reports/confusion_metrix.json'
+            cr_path = './reports/classification_report.json'
+            
+            # dumping confusion metrix in a json file
+            with open(cm_path, 'w') as f:
+                json.dump(metrics['conf_matrix'], f)
+                
+            # dumping classification report in a json file
+            with open(cr_path, 'w') as f:
+                json.dump(metrics['classfic_report'], f)
+                
+            
+            # loggin artifacts
+            live.log_artifact(cm_path)
+            live.log_artifact(cr_path)
+            
+            live.log_params(params)
         
         save_reports(metrics, './reports/metrics.json')
         logger.debug('Model evaluation operation completed.')

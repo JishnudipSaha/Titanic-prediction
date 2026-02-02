@@ -66,23 +66,23 @@ stages:
       size: 4225
     params:
       params.yaml:
-        model_building.max_iter: 200
+        model_building.max_iter: 260
     outs:
     - path: models/model.pkl
       hash: md5
-      md5: d4b6c81fe8c2ec8bfa1f9c084cd384d3
-      size: 936
+      md5: 28900be3e070c18aef0230905a55f434
+      size: 937
   model_evaluation:
     cmd: python src/model_evaluation.py
     deps:
     - path: models/model.pkl
       hash: md5
-      md5: d4b6c81fe8c2ec8bfa1f9c084cd384d3
-      size: 936
+      md5: 28900be3e070c18aef0230905a55f434
+      size: 937
     - path: src/model_evaluation.py
       hash: md5
-      md5: d89f1380f27d5f80042c6bf9a1c370c7
-      size: 4197
+      md5: 9bdf467ecc912a70a94c1af3df62eaaf
+      size: 5806
     outs:
     - path: reports/metrics.json
       hash: md5
