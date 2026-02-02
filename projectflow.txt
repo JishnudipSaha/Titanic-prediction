@@ -12,3 +12,7 @@
 8. Noe add data, models, reports directories to .gitignore file (this is important not to track by git)
   > those files will be tracked by dvc(cuz in future the files might be very large in size)
   > Now to track by dvc we first need to make sure that those file should not be track by git
+
+9. Now setting up DVC pipeline with/without params (as i will do with params, for integrity, and modular)
+    > we will automate the whole pipeline using dvc in yaml file (using "dvc repro" command)
+    now git add-commit-push
